@@ -1,0 +1,357 @@
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+
+    <title>{{user.name}} profile</title>
+        
+    <style>
+      body {
+        background: -webkit-linear-gradient(#fe3334, #ff929f, #00667f);
+      }
+      .emp-profile {
+        padding: 3%;
+        margin-top: 3%;
+        margin-bottom: 3%;
+        border-radius: 0.5rem;
+        background: #fff;
+      }
+      .profile-img {
+        text-align: center;
+
+      }
+      .profile-img img {
+        width: 70%;
+        height: auto;
+        border-radius: 50%;
+      }
+      .profile-head h5 {
+        color: #333;
+      }
+      .profile-head h6 {
+        color: #0062cc;
+      }
+      .profile-edit-btn {
+        border: none;
+        width: 70%;
+        padding: 2%;
+        font-weight: 600;
+        color: #6c757d;
+        cursor: pointer;
+      }
+      .proile-rating {
+        font-size: 12px;
+        color: #818182;
+        margin-top: 5%;
+      }
+      .proile-rating span {
+        color: #495057;
+        font-size: 15px;
+        font-weight: 600;
+      }
+      .profile-head .nav-tabs {
+        margin-bottom: 5%;
+      }
+      .profile-head .nav-tabs .nav-link {
+        font-weight: 600;
+        border: none;
+      }
+      .profile-head .nav-tabs .nav-link.active {
+        border: none;
+        border-bottom: 2px solid #0062cc;
+      }
+      .profile-work {
+        padding: 14%;
+        margin-top: -15%;
+      }
+      .profile-work p {
+        font-size: 12px;
+        color: #818182;
+        font-weight: 600;
+        margin-top: 10%;
+      }
+      .profile-work a {
+        text-decoration: none;
+        color: #495057;
+        font-weight: 600;
+        font-size: 14px;
+      }
+      .profile-work ul {
+        list-style: none;
+      }
+      .profile-tab label {
+        font-weight: 600;
+      }
+      .profile-tab p {
+        font-weight: 600;
+        color: #0062cc;
+      }
+      .container {
+        margin-top: 60px;
+        background: #fff;
+      }
+      
+      .meter {
+        width: 200px;
+       height: 200px;
+        position: relative;
+      }
+
+    svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    circle {
+      fill: transparent;
+      stroke-width: 10;
+      stroke-linecap: round;
+      transform: rotate(-90deg);
+      transform-origin: 50% 50%;
+      }
+
+.progress {
+  stroke: #2196f3;
+}
+
+.score {
+  font-size: 30px;
+  font-weight: bold;
+  fill: #2196f3;
+}
+
+.label {
+  font-size: 18px;
+  fill: #666;
+}
+
+
+    </style>
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v6.4.0/css/all.css"
+    />
+  </head>
+
+  <body>
+    <div class="container">
+      <link
+        href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+        rel="stylesheet"
+        id="bootstrap-css"
+      />
+
+      <!------ Include the above in your HEAD tag ---------->
+      <div class="container emp-profile">
+        <form action="/" method="post">
+          <div class="row">
+            <div class="col-md-4">
+              <div class="profile-img">
+                <img
+                  src="{{person.selfie.url}}"
+                  alt="https://cdn.iconscout.com/icon/free/png-256/person-71-432906.png"
+                />
+                <div></div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="profile-head">
+                <h5>{{person.first_name}} {{person.last_name}}</h5>
+                <h6>CIBIL SCORE: </h6>
+                <div class="meter">
+                <svg>
+                <circle cx="50%" cy="50%" r="70"></circle>
+                <circle class="progress" cx="50%" cy="50%" r="70"></circle>
+                <text x="50%" y="55%" text-anchor="middle" class="score">500</text>
+                <text x="50%" y="70%" text-anchor="middle" class="label">CIBIL Score</text>
+                </svg>
+              </div>
+
+
+                <p class="proile-rating">
+                  Joined Oneasy on :
+                  <span>{{person.time_added|date:"M Y"}}</span>
+                </p>
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                  <li class="nav-item">
+                    <a
+                      class="nav-link active"
+                      id="home-tab"
+                      data-toggle="tab"
+                      href="#home"
+                      role="tab"
+                      aria-controls="home"
+                      aria-selected="true"
+                      >About</a
+                    >
+                  </li>
+                  <li class="nav-item">
+                    <a
+                      class="nav-link"
+                      id="profile-tab"
+                      data-toggle="tab"
+                      href="#profile"
+                      role="tab"
+                      aria-controls="profile"
+                      aria-selected="false"
+                      >Loan details</a
+                    >
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="col-md-2"></div>
+          </div>
+          <div class="row">
+            <div class="col-md-4">
+              <div class="profile-work">
+                <p>OTHER PROFILES</p>
+                <a href="">Website Link</a><br />
+                <a href="">Bootsnipp Profile</a><br />
+                <a href="">Bootply Profile</a>
+                <p>INTRESTS</p>
+                {% for i in intrest %}
+                <a href="">{{i}}</a><br />
+                {% endfor %}
+              </div>
+            </div>
+            <div class="col-md-8">
+              <div class="tab-content profile-tab" id="myTabContent">
+                <div
+                  class="tab-pane fade show active"
+                  id="home"
+                  role="tabpanel"
+                  aria-labelledby="home-tab"
+                >
+                  <div class="row">
+                    <div class="col-md-6">
+                      <label><i class="fa-solid fa-envelope"></i></i> Email</label>
+                    </div>
+                    <div class="col-md-6">
+                      <p>{{user.email}}</p>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <label> <i class="fa-solid fa-user"></i>User</label>
+                    </div>
+                    <div class="col-md-6">
+                      <p>{{person.first_name}} {{person.last_name}}</p>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <label><i class="fa-solid fa-phone"></i>Phone</label>
+                    </div>
+                    <div class="col-md-6">
+                      <p>{{user.phone}}</p>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="tab-pane fade"
+                  id="profile"
+                  role="tabpanel"
+                  aria-labelledby="profile-tab"
+                >
+                  <div class="row">
+                    <div class="col-md-6">
+                      <label>Work Experience</label>
+                    </div>
+                    <div class="col-md-6">
+                      <p>{{person.years_of_work_experience}} years</p>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <label>Age</label>
+                    </div>
+                    <div class="col-md-6">
+                      <p>{{person.age}} years</p>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <label>Oneasy repayment score</label>
+                    </div>
+                    <div class="col-md-6">
+                      <p>{{person.repayment_score}}</p>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <label>Max loan can borrow for 12 months</label>
+                    </div>
+                    <div class="col-md-6">
+                      <p>Expert</p>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <label>Availability</label>
+                    </div>
+                    <div class="col-md-6">
+                      <p>6 months</p>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <label>Your Bio</label><br />
+                      <p>Your detail description</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
+    <script>
+      function setScore(score) {
+        const circle = document.querySelector('.progress');
+        const radius = circle.r.baseVal.value;
+        const circumference = 2 * Math.PI * radius;
+        const offset = circumference - score / 700 * circumference;
+        circle.style.strokeDasharray = `${circumference} ${circumference}`;
+        circle.style.strokeDashoffset = offset;
+        document.querySelector('.score').textContent = score;
+      }
+
+      setScore({{person.cal_cibil_score}}); 
+    </script>
+
+  </body>
+</html>

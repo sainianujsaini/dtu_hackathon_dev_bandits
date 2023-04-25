@@ -1,0 +1,246 @@
+{% load static %}
+{% load myfilters %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <title>Search loan requests</title>
+  </head>
+  <body>
+<style>
+  .main-area {
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 0px;
+    background-color: #f8f9fa;
+  }
+
+  .product-cards {
+    background-color: white;
+    padding: 10px;
+  }
+
+  .btn-primary {
+    margin: 10px;
+  }
+
+  .pagination {
+    justify-content: center;
+  }
+
+  .utility {
+    display: flex;
+  }
+  .header-blue .navbar {
+    background: transparent;
+    padding-top: 0 rem;
+    padding-bottom: .75rem;
+    color: #fff;
+    border-radius: 0;
+    box-shadow: none;
+    border: none;
+  }
+  
+  @media (min-width:768px) {
+    .header-blue .navbar {
+      padding-top: 1rem;
+      padding-bottom: 1rem;
+    }
+  }
+  
+  .header-blue .navbar .navbar-brand {
+    font-weight: bold;
+    color: inherit;
+  }
+  
+  .header-blue .navbar .navbar-brand:hover {
+    color: #f0f0f0;
+  }
+  
+  .header-blue .navbar .navbar-collapse {
+    border-top: 1px solid rgba(255,255,255,0.3);
+    margin-top: .5rem;
+  }
+  
+  @media (min-width:768px) {
+    .header-blue .navbar .navbar-collapse {
+      border-color: transparent;
+      margin: 0;
+    }
+  }
+  
+</style>
+
+<nav class="navbar navbar-light navbar-expand-md navigation-clean-search">
+  <div class="container-fluid"><a class="navbar-brand" href="/">ONEASY</a><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+      <div class="collapse navbar-collapse"
+          id="navcol-1">
+          <ul class="nav navbar-nav">
+              <li class="nav-item" role="presentation"><a class="nav-link" href="#">Contact</a></li>
+              {% if user.profilemodel %}
+              <li class="nav-item" role="presentation"><a class="nav-link" href="{% url 'profile' %}">Profile</a></li>
+              {% else %}
+              <li class="nav-item" role="presentation"><a class="nav-link" href="createprofile/">Build Profile</a></li>
+              {% endif %}
+              <li class="nav-item dropdown"><a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false" href="#">Services</a>
+                  <div class="dropdown-menu" role="menu"><a class="dropdown-item" role="presentation" href="/add_loanrequest">Loan Application</a><a class="dropdown-item" role="presentation" href="/search_loanrequest/">Loan Requests</a><a class="dropdown-item" role="presentation" href="#">Your Request</a></div>
+              </li>
+          </ul>
+            {% if user.is_authenticated%}
+            </form><a class="btn btn-light action-button" role="button" href="logout/">Log out</a></div>
+            {% else %} 
+            </form><span class="navbar-text"> <a class="login" href="/login">Log In</a></span><a class="btn btn-light action-button" role="button" href="/signup">Signup</a></div>
+            {% endif %}
+  </div>
+</nav>
+
+<div class="main-area">
+  <div class="product-cards">
+    <div class="utility">
+      <!-- For Making A Search Bar -->
+      <form method="GET" action="/search_loanrequest/" class="d-flex">
+        <input class="form-control me-2" name="search" id="search" type="search" placeholder="Search"
+          aria-label="Search">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+      </form>
+
+      <!-- For filtering based on Price -->
+      <select name="price" id="price-list" onchange="location = finalurl2();" style="margin-left: auto;">
+        <option value="" id="price-placeholder" disabled selected hidden>Amount</option>
+        <option id="pr500" value="10000">more than 10000</option>
+        <option id="pr1000" value="20000">more than 20000</option>
+        <option id="pr2000" value="50000">more than 50000</option>
+        <option id="pr10000" value="100000">more than 100000</option>
+      </select>
+
+      <!-- For making sorting functionality -->
+      <select name="sort" id="sort-list" onchange="location = finalurl();" style="margin-left: auto;">
+        <option value="" id="placeholder" disabled selected hidden>Sort</option>
+        {% comment %} <option id="price" value="price">Intrest: Low To High</option> {% endcomment %}
+        <option id="-price" value="-price">Intrest: High To Low</option>
+        {% comment %} <option id="product_name" value="product_name">Product Name</option>
+        <option id="-date_added" value="-date_added">What's New</option> {% endcomment %}
+      </select>
+
+
+
+    </div>
+    <br>
+    <div class="row row-cols-1 row-cols-md-4 g-4">
+      {% for i in loanrequests %}
+      <div class="container">
+      <div class="col">
+        <div class="card h-100">
+          <div class="card-body">
+            <h5 class="card-title"><a href="">{{i.title}}</a></h5>
+            <p class="card-text">{{i.amount}} at {{i.intrest}}% intrest for {{i.months}} months</p>
+          </div>
+          <a class="btn btn-primary" href="/loanrequest/{{i.user.id}}">Accept</a>
+        </div>
+      </div>
+      </div>
+      {% endfor %}
+    </div>
+    
+
+    
+
+    <br>
+
+    <!-- **Now the pagination section** .... -->
+    {% if is_paginated %}
+    <nav class="pagination">
+      <ul class="pagination">
+        {% if page_obj.has_previous %}
+        <li class="page-item">
+          <a class="page-link" tabindex="-1" aria-disabled="true"
+            href="/search_loanrequest/?page={{ page_obj.previous_page_number }}">Previous</a>
+        </li>
+        {% endif %}
+        {% for i in paginator.page_range %}
+        {% if i == page_obj.number%}
+        <li class="page-item active" aria-current="page">
+          <a class="page-link" href="/search_loanrequest/?page={{i}}" span class="visually-hidden">{{i}}</span></a>
+        </li>
+        {% else %}
+        <li class="page-item"><a class="page-link" href="/search_loanrequest/?page={{i}}">{{i}}</a></li>
+        {% endif %}
+        {% endfor %}
+        {% if page_obj.has_next %}
+        <li class="page-item">
+          <a class="page-link" tabindex="-1" href="/search_loanrequest/?page={{ page_obj.next_page_number }}">Next</a>
+        </li>
+        {% endif %}
+      </ul>
+    </nav>
+    {% endif %}
+  </div>
+
+
+
+</div>
+<script>
+  // for getting the sorting status to be displayed in sorting dropdown placeholder
+  function get(name) {
+    if (name = (new RegExp('[?&]' + encodeURIComponent(name) + '=([^&]*)')).exec(location.search))  //location.search give query sling part
+      return decodeURIComponent(name[1]);
+  }
+
+  if(get('ordering'))
+  document.getElementById('placeholder').innerHTML = "Sort: " + document.getElementById(get('ordering')).innerHTML;
+
+  if(get('price'))
+  document.getElementById('price-placeholder').innerHTML = "Price: " + document.getElementById('pr'+get('price')).innerHTML;
+
+
+
+  
+  
+
+  // for getting url after applying ordering
+  function finalurl() {
+    var url = new URL(window.location.href);
+    var search_params = url.searchParams;
+    search_params.set('ordering', document.getElementById("sort-list").value);
+    url.search = search_params.toString();
+    var new_url = url.toString();
+    return new_url
+  }
+  
+  // for getting url after applying price filtering
+  function finalurl2() {
+    var url = new URL(window.location.href);
+    var search_params = url.searchParams;
+    search_params.set('amount', document.getElementById("price-list").value);
+    url.search = search_params.toString();
+    var new_url = url.toString();
+    return new_url
+  }
+
+</script>
+
+
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+  // for giving suggestions in search box by calling an API
+  $(function () {
+    $("#search").autocomplete({
+      {% comment %} source: '{% url 'suggestionapi' %}', {% endcomment %}
+      minLength: 2
+    });
+  });
+</script>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  </body>
+</html>
