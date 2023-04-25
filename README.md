@@ -1,10 +1,7 @@
-# Fullstack Web Developer
-Flipr Hackathon XII Task Submission Fullstack Web Developer
+# Fullstack Web Development
 ## loanlending Application (C2C)
 
 ## Problem statement
-You are expected to build a web application where users can ask or give personal loans to other users of the
-application.
 This platform can also be called as a C2C (Customer to Customer) personal loan lending platform.
 
 
